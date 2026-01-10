@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">app-travelpath</string>
+    <string name="bienvenue">Welcome</string>
+    <string name="sportif_high">Sportif (High)</string>
+    <string name="mod_r_medium">Modéré (Medium)</string>
+    <string name="tranquille_low">Tranquille (Low)</string>
+    <string name="niveau_d_effort_physique">Niveau d\'effort physique</string>
+    <string name="duree_souhaite">Durée souhaitée (Heures)</string>
+    <string name="budget_maximum">Budget Maximum (€)</string>
+    <string name="g_n_rer_le_parcours">Générer le parcours</string>
+</resources>
