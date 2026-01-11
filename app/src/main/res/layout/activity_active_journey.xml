@@ -27,7 +27,7 @@
         android:id="@+id/tvStepCounter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Step 1 of 5"
+        android:text="@string/step_1_of_5"
         android:textColor="#757575"
         android:textStyle="bold"
         android:layout_marginTop="16dp"
@@ -67,7 +67,7 @@
                     android:id="@+id/tvCategoryBadge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="CULTURE"
+                    android:text="@string/culture"
                     android:background="#CC000000"
                     android:textColor="#FFFFFF"
                     android:paddingHorizontal="12dp"
@@ -100,10 +100,25 @@
                     android:id="@+id/tvSpotDetails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Description placeholder...\nPrice: 15€\nDuration: 2h"
+                    android:text="@string/description_placeholder_nprice_15_nduration_2h"
                     android:textSize="16sp"
                     android:textColor="#555555"
                     android:lineSpacingMultiplier="1.2"/>
+
+                <TextView
+                    android:id="@+id/tvOpeningHours"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="#F5F5F5"
+                    android:padding="12dp"
+                    android:text="@string/horaires_d_ouverture"
+                    android:textColor="#333333"
+                    android:textSize="14sp"
+                    android:textStyle="italic"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -126,12 +141,12 @@
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_weight="1"
-                android:text="View on Map"
+                android:text="@string/view_on_map"
                 android:textColor="#000000"
                 app:backgroundTint="#FFFFFF"
                 app:strokeColor="#000000"
                 app:strokeWidth="1dp"
-                app:icon="@drawable/ic_menu_compass"
+                app:icon="@drawable/outline_map_24"
                 app:iconTint="#000000"
                 app:cornerRadius="12dp"
                 android:layout_marginEnd="8dp"/>
@@ -141,7 +156,7 @@
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_weight="1"
-                android:text="Next Step"
+                android:text="@string/next_step"
                 android:textColor="#FFFFFF"
                 app:backgroundTint="#000000"
                 app:icon="@android:drawable/ic_media_next"
@@ -155,7 +170,7 @@
             android:id="@+id/btnFinalize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Finalize Journey"
+            android:text="@string/finalize_journey"
             android:textColor="#D32F2F"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:textStyle="bold"/>

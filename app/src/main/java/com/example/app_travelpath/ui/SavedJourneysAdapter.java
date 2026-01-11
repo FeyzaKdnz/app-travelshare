@@ -40,7 +40,7 @@ public class SavedJourneysAdapter extends RecyclerView.Adapter<SavedJourneysAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         SavedJourney journey = journeys.get(position);
         holder.tvName.setText(journey.name);
-        holder.tvDate.setText(journey.date); // Votre date est maintenant un String, c'est facile !
+        holder.tvDate.setText(journey.date);
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) listener.onItemClick(journey);
@@ -62,14 +62,10 @@ public class SavedJourneysAdapter extends RecyclerView.Adapter<SavedJourneysAdap
         }
     }
 
-    // Dans SavedJourneysAdapter.java
-
-    // Pour récupérer l'objet à la position X
     public SavedJourney getJourneyAt(int position) {
         return journeys.get(position);
     }
 
-    // Pour supprimer l'objet de la liste visuelle sans tout recharger
     public void removeJourney(int position) {
         journeys.remove(position);
         notifyItemRemoved(position);

@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView; // Import ImageView
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,11 +37,24 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executors;
 
+/* IMPORT POUR L'INTÉGRATION DU TRAVELSHARE */
+
 import com.example.app_travelpath.data.travelshare.TravelShareClient;
 import com.example.app_travelpath.data.travelshare.TravelSharePhoto;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+/* IMPORT POUR L'EXPORTATION EN PDF */
+
+import android.graphics.pdf.PdfDocument;
+import android.graphics.Paint;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import androidx.core.content.FileProvider;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class JourneyResultActivity extends AppCompatActivity {
     private RecyclerView recyclerResult;
@@ -55,7 +68,7 @@ public class JourneyResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_journey_result);
 
         List<Spot> finalRoute = (List<Spot>) getIntent().getSerializableExtra("final_route");
-        String cityName = getIntent().getStringExtra("city_name"); // On récupère le nom de la ville
+        String cityName = getIntent().getStringExtra("city_name");
 
         TextView tvTotalCost = findViewById(R.id.tvTotalCost);
         TextView tvTotalDuration = findViewById(R.id.tvTotalDuration);
@@ -95,6 +108,12 @@ public class JourneyResultActivity extends AppCompatActivity {
             intent.putExtra("active_route", (Serializable) currentRouteDisplayed);
             startActivity(intent);
         });
+
+        Button btnExportPdf = findViewById(R.id.btnExportPdf);
+        btnExportPdf.setOnClickListener(v -> {
+            generateAndSharePdf(currentRouteDisplayed, cityName);
+        });
+
     }
 
     private List<Spot> currentRouteDisplayed;
@@ -153,7 +172,7 @@ public class JourneyResultActivity extends AppCompatActivity {
         }
 
         tvCost.setText((int)totalCost + "€");
-        tvTime.setText(String.format("%.1fh", totalDuration)); // Format 4.5h
+        tvTime.setText(String.format("%.1fh", totalDuration));
 
         JourneyAdapter adapter = new JourneyAdapter();
 
@@ -188,6 +207,7 @@ public class JourneyResultActivity extends AppCompatActivity {
         }
     }
 
+    /* --------------------- SAUVEGARDE DU PARCOURS --------------------- */
     private void showSaveDialog() {
         if (currentRouteDisplayed == null || currentRouteDisplayed.isEmpty()) {
             return;
@@ -243,20 +263,18 @@ public class JourneyResultActivity extends AppCompatActivity {
         });
     }
 
-    /* --------------------- MÉTHODE MÉTÉO --------------------- */
+    /* ----------------------------- INTÉGRATION MÉTÉO : OPENWEATHERMAP ----------------------------- */
+
     private void fetchWeather(String city) {
-        // On fait ça en arrière-plan pour ne pas bloquer l'écran
         Executors.newSingleThreadExecutor().execute(() -> {
             try {
-                // URL de l'API (units=metric pour avoir des Celsius)
                 String urlString = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + API_KEY + "&units=metric";
 
                 URL url = new URL(urlString);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
 
-                if (conn.getResponseCode() == 200) { // Si succès (Code 200)
-                    // Lire la réponse
+                if (conn.getResponseCode() == 200) {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                     StringBuilder response = new StringBuilder();
                     String line;
@@ -265,22 +283,15 @@ public class JourneyResultActivity extends AppCompatActivity {
                     }
                     reader.close();
 
-                    // Analyser le JSON
                     JSONObject json = new JSONObject(response.toString());
-
-                    // Récupérer la température
                     JSONObject main = json.getJSONObject("main");
                     double temp = main.getDouble("temp");
 
-                    // Récupérer l'icône (ex: "10d")
                     String iconCode = json.getJSONArray("weather").getJSONObject(0).getString("icon");
                     String iconUrl = "https://openweathermap.org/img/wn/" + iconCode + "@2x.png";
 
-                    // Mettre à jour l'interface (UI Thread obligatoire !)
                     runOnUiThread(() -> {
                         tvWeatherTemp.setText((int)temp + "°C");
-
-                        // Utiliser GLIDE pour charger l'icône météo
                         Glide.with(this)
                                 .load(iconUrl)
                                 .into(imgWeatherIcon);
@@ -288,25 +299,21 @@ public class JourneyResultActivity extends AppCompatActivity {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                // En cas d'erreur (ex: Pas internet, ville inconnue), on ne fait rien ou on met "--"
             }
         });
     }
 
-    /* --------------------- INTÉGRATION TRAVELSHARE --------------------- */
+    /* ----------------------------- INTÉGRATION TRAVELSHARE ------------------------------ */
 
     private void enrichRouteWithPhotos(List<Spot> route) {
         if (route == null || route.isEmpty()) return;
 
         Spot center = route.get(0);
-        // LOG 1 : On vérifie que la méthode se lance bien
-        android.util.Log.d("TRAVEL_DEBUG", "Lancement recherche API TravelShare autour de " + center.getName() + " (" + center.getLatitude() + "," + center.getLongitude() + ")");
 
-        TravelShareClient.getService().getPhotosAround(center.getLatitude(), center.getLongitude(), 10) // 10km radius
+        TravelShareClient.getService().getPhotosAround(center.getLatitude(), center.getLongitude(), 10)
                 .enqueue(new Callback<List<TravelSharePhoto>>() {
                     @Override
                     public void onResponse(Call<List<TravelSharePhoto>> call, Response<List<TravelSharePhoto>> response) {
-                        // LOG 2 : On a reçu une réponse du serveur
                         if (response.isSuccessful() && response.body() != null) {
                             List<TravelSharePhoto> sharedPhotos = response.body();
                             android.util.Log.d("TRAVEL_DEBUG", "Réponse reçue : " + sharedPhotos.size() + " photos disponibles dans la zone.");
@@ -323,12 +330,10 @@ public class JourneyResultActivity extends AppCompatActivity {
                                     );
                                     float distance = results[0];
 
-                                    // LOG 3 : On affiche les distances proches pour vérifier
                                     if (distance < 500) {
                                         android.util.Log.d("TRAVEL_DEBUG", "Proximité : Photo à " + distance + "m de " + mySpot.getName());
                                     }
 
-                                    // TEST : J'augmente la tolérance à 200m pour le test
                                     if (distance < 200) {
                                         android.util.Log.d("TRAVEL_DEBUG", "MATCH TROUVÉ " + mySpot.getName() + " -> " + photo.getFullImageUrl());
                                         mySpot.setExternalImageUrl(photo.getFullImageUrl());
@@ -342,11 +347,10 @@ public class JourneyResultActivity extends AppCompatActivity {
                                 runOnUiThread(() -> {
                                     if (recyclerResult.getAdapter() != null) {
                                         recyclerResult.getAdapter().notifyDataSetChanged();
-                                        android.util.Log.d("TRAVEL_DEBUG", "UI mise à jour avec les nouvelles images.");
                                     }
                                 });
                             } else {
-                                android.util.Log.d("TRAVEL_DEBUG", "Aucune correspondance trouvée (trop loin ?)");
+                                android.util.Log.d("TRAVEL_DEBUG", "Aucune correspondance trouvée (trop loin)");
                             }
 
                         } else {
@@ -356,10 +360,92 @@ public class JourneyResultActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<List<TravelSharePhoto>> call, Throwable t) {
-                        android.util.Log.e("TRAVEL_DEBUG", "ECHEC RÉSEAU : " + t.getMessage());
                         t.printStackTrace();
                     }
                 });
+    }
+
+    /* ----------------------------- EXPORTATION EN PDF ----------------------------- */
+
+    private void generateAndSharePdf(List<Spot> route, String cityName) {
+        if (route == null || route.isEmpty()) return;
+
+        /* ----- CRÉATION DU DOC PDF ET CONFIGURATION DE LA PAGE ----- */
+
+        PdfDocument pdfDocument = new PdfDocument();
+        Paint paint = new Paint();
+        Paint titlePaint = new Paint();
+
+        int pageHeight = Math.max(842, 200 + route.size() * 100);
+        PdfDocument.PageInfo myPageInfo = new PdfDocument.PageInfo.Builder(595, pageHeight, 1).create();
+        PdfDocument.Page myPage = pdfDocument.startPage(myPageInfo);
+        Canvas canvas = myPage.getCanvas();
+
+        int x = 40;
+        int y = 60;
+
+        titlePaint.setTextSize(24);
+        titlePaint.setFakeBoldText(true);
+        titlePaint.setColor(Color.BLACK);
+        canvas.drawText("TravelPath - Itinerary", x, y, titlePaint);
+
+        y += 40;
+        paint.setTextSize(16);
+        paint.setColor(Color.DKGRAY);
+        canvas.drawText("Destination: " + (cityName != null ? cityName : "Custom Trip"), x, y, paint);
+
+        y += 50;
+        paint.setStrokeWidth(1);
+        canvas.drawLine(x, y, 550, y, paint);
+        y += 40;
+
+        int step = 1;
+        double totalCost = 0;
+
+        for (Spot spot : route) {
+            titlePaint.setTextSize(14);
+            canvas.drawText(step + ". " + spot.getName(), x, y, titlePaint);
+            y += 20;
+
+            paint.setTextSize(12);
+            paint.setColor(Color.GRAY);
+            String details = "   Category: " + spot.getCategoryType() +
+                    "  |  Price: " + spot.getPrice() + "€" +
+                    "  |  Duration: " + spot.getDuration() + "h";
+            canvas.drawText(details, x, y, paint);
+
+            totalCost += spot.getPrice();
+            y += 40;
+            step++;
+        }
+
+        y += 20;
+        canvas.drawLine(x, y, 550, y, paint);
+        y += 40;
+        titlePaint.setTextSize(16);
+        canvas.drawText("Total Estimated Cost: " + (int)totalCost + "€", x, y, titlePaint);
+
+        pdfDocument.finishPage(myPage);
+
+        /* ----- SAUVEGARDE DANS LE CACHE ET PARTAGE IMMÉDIAT ----- */
+
+        File file = new File(getCacheDir(), "TravelPath_Itinerary.pdf");
+        try {
+            pdfDocument.writeTo(new FileOutputStream(file));
+            Uri uri = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", file);
+
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("application/pdf");
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(Intent.createChooser(shareIntent, "Share Itinerary via..."));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error generating PDF", Toast.LENGTH_SHORT).show();
+        } finally {
+            pdfDocument.close();
+        }
     }
 
 }

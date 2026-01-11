@@ -24,25 +24,19 @@ import com.google.android.material.slider.Slider;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.Serializable;
-import java.util.Collections; // Import nécessaire pour le Shuffle
+import java.util.Collections;
 import java.util.List;
 
 public class CreateJourneyActivity extends AppCompatActivity {
 
     private SpotRepository spotRepository;
-
-    // UI Components
     private TextInputEditText etCityInput;
     private TextView tvDurationValue, tvSummary, tvBudgetRange;
     private Slider sliderDuration;
     private RangeSlider sliderBudget;
-
-    // Nouveaux composants Chips
     private Chip chipFood, chipCulture, chipLeisure;
-
-    // Effort Cards
     private LinearLayout cardEffortLow, cardEffortMedium, cardEffortHigh;
-    private EffortLevel selectedEffort = EffortLevel.LOW; // Par défaut
+    private EffortLevel selectedEffort = EffortLevel.LOW;
 
     private ImageButton btnBack;
     private ProgressBar loadingIndicator;
@@ -54,23 +48,19 @@ public class CreateJourneyActivity extends AppCompatActivity {
 
         spotRepository = new SpotRepository(getApplication());
 
-        // Liaison UI
         etCityInput = findViewById(R.id.etCityInput);
         loadingIndicator = findViewById(R.id.loadingIndicator);
         btnBack = findViewById(R.id.btnBack);
 
-        // Chips Activités
         chipFood = findViewById(R.id.chipFood);
         chipCulture = findViewById(R.id.chipCulture);
         chipLeisure = findViewById(R.id.chipLeisure);
 
-        // Sliders
         sliderDuration = findViewById(R.id.sliderDuration);
         tvDurationValue = findViewById(R.id.tvDurationValue);
         sliderBudget = findViewById(R.id.sliderBudget);
         tvBudgetRange = findViewById(R.id.tvBudgetRange);
 
-        // Cartes Effort
         cardEffortLow = findViewById(R.id.cardEffortLow);
         cardEffortMedium = findViewById(R.id.cardEffortMedium);
         cardEffortHigh = findViewById(R.id.cardEffortHigh);
@@ -78,16 +68,12 @@ public class CreateJourneyActivity extends AppCompatActivity {
         tvSummary = findViewById(R.id.tvSummary);
         Button btnGenerate = findViewById(R.id.btnGenerate);
 
-        // Récupération ville Intent
         String intentCity = getIntent().getStringExtra("city_name");
         if (intentCity != null && !intentCity.isEmpty()) {
             etCityInput.setText(intentCity);
         }
 
-        // Config Sliders
         sliderBudget.setValues(0.0f, 100.0f);
-
-        // Listeners
         btnBack.setOnClickListener(v -> finish());
 
         etCityInput.addTextChangedListener(new TextWatcher() {
@@ -107,17 +93,12 @@ public class CreateJourneyActivity extends AppCompatActivity {
             updateSummary();
         });
 
-        // --- GESTION DU CLIC SUR LES CARTES EFFORT ---
         setupEffortCard(cardEffortLow, EffortLevel.LOW);
         setupEffortCard(cardEffortMedium, EffortLevel.MEDIUM);
         setupEffortCard(cardEffortHigh, EffortLevel.HIGH);
-
-        // Initialiser la sélection visuelle
         updateEffortVisuals();
 
         updateSummary();
-
-        // LOGIQUE GÉNÉRATION
         btnGenerate.setOnClickListener(v -> {
             String cityInput = etCityInput.getText().toString().trim();
 
@@ -141,7 +122,6 @@ public class CreateJourneyActivity extends AppCompatActivity {
                         return;
                     }
 
-                    // Récupération des Checkbox (Chips maintenant)
                     boolean wantFood = chipFood.isChecked();
                     boolean wantCulture = chipCulture.isChecked();
                     boolean wantLeisure = chipLeisure.isChecked();
@@ -168,20 +148,13 @@ public class CreateJourneyActivity extends AppCompatActivity {
                         Intent intent = new Intent(CreateJourneyActivity.this, JourneyResultActivity.class);
                         intent.putExtra("final_route", (Serializable) results);
 
-                        // --- FIX CRASH : LIMITATION DU NOMBRE DE SPOTS ---
-                        // On limite la liste "réserve" à 300 items max pour éviter TransactionTooLargeException
                         List<Spot> safeAvailableSpots = spots;
                         if (spots.size() > 300) {
-                            // On mélange d'abord pour avoir un échantillon représentatif
                             Collections.shuffle(spots);
                             safeAvailableSpots = new java.util.ArrayList<>(spots.subList(0, 300));
                         }
                         intent.putExtra("available_spots", (Serializable) safeAvailableSpots);
-                        // ---------------------------------------------------
-
                         intent.putExtra("city_name", cityInput);
-
-                        // Paramètres pour régénération
                         intent.putExtra("want_culture", wantCulture);
                         intent.putExtra("want_food", wantFood);
                         intent.putExtra("want_leisure", wantLeisure);
@@ -205,7 +178,6 @@ public class CreateJourneyActivity extends AppCompatActivity {
         });
     }
 
-    // Configure le clic sur une carte
     private void setupEffortCard(View card, EffortLevel level) {
         card.setOnClickListener(v -> {
             selectedEffort = level;
@@ -214,9 +186,7 @@ public class CreateJourneyActivity extends AppCompatActivity {
         });
     }
 
-    // Met à jour la bordure des cartes selon la sélection
     private void updateEffortVisuals() {
-        // On utilise "setSelected" qui déclenche le selector XML que nous avons créé
         cardEffortLow.setSelected(selectedEffort == EffortLevel.LOW);
         cardEffortMedium.setSelected(selectedEffort == EffortLevel.MEDIUM);
         cardEffortHigh.setSelected(selectedEffort == EffortLevel.HIGH);

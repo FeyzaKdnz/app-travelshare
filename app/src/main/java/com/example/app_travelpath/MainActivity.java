@@ -18,7 +18,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Classe interne pour les données
     private static class BackgroundOption {
         int imageResId;
         String cityName;
@@ -29,13 +28,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // --- VARIABLES POUR LE CARROUSEL ---
-    private List<BackgroundOption> options = new ArrayList<>();
-    private int currentIndex = 0; // Pour savoir quelle image on affiche
-    private Handler handler = new Handler(Looper.getMainLooper());
-    private Runnable carouselRunnable; // La tâche qui se répète
+    /* --- VARIABLES POUR LE CARROUSEL --- */
 
-    // Composants UI
+    private List<BackgroundOption> options = new ArrayList<>();
+    private int currentIndex = 0;
+    private Handler handler = new Handler(Looper.getMainLooper());
+    private Runnable carouselRunnable;
     private ImageView imgBackground;
     private TextView tvCityLocation;
 
@@ -44,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // 1. Initialisation des Vues
         imgBackground = findViewById(R.id.imgBackground);
         tvCityLocation = findViewById(R.id.tvCityLocation);
         Button btnCreateJourney = findViewById(R.id.btnCreateJourney);
@@ -65,18 +62,14 @@ public class MainActivity extends AppCompatActivity {
         options.add(new BackgroundOption(R.drawable.kirgiz, "Kara-Köl, Kyrgyzstan"));
         options.add(new BackgroundOption(R.drawable.roma, "Roma, Italia"));
 
-
-        // 3. Définition de la tâche du Carrousel
         carouselRunnable = new Runnable() {
             @Override
             public void run() {
                 changeBackgroundWithAnimation();
-                // On relance cette même tâche dans 5 secondes (5000 ms)
                 handler.postDelayed(this, 5000);
             }
         };
 
-        // Navigation
         btnCreateJourney.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, CreateJourneyActivity.class);
             intent.putExtra("city_name", "");
@@ -89,13 +82,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // --- GESTION DU CYCLE DE VIE (Important !) ---
-
     @Override
     protected void onResume() {
         super.onResume();
-        // Quand l'appli s'ouvre ou revient au premier plan : on lance le carrousel
-        // On lance immédiatement la première image
         if (!options.isEmpty()) {
             handler.post(carouselRunnable);
         }
@@ -104,26 +93,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        // Quand l'utilisateur quitte l'écran : on arrête le carrousel pour économiser la batterie
         handler.removeCallbacks(carouselRunnable);
     }
 
-    // --- LOGIQUE D'ANIMATION ---
     private void changeBackgroundWithAnimation() {
         if (options.isEmpty()) return;
 
-        // 1. Fade OUT (L'image devient transparente en 500ms)
         imgBackground.animate().alpha(0f).setDuration(500).withEndAction(() -> {
 
-            // Une fois invisible, on change l'image et le texte
             BackgroundOption current = options.get(currentIndex);
             imgBackground.setImageResource(current.imageResId);
             tvCityLocation.setText(current.cityName);
-
-            // 2. Fade IN (L'image réapparaît en 500ms)
             imgBackground.animate().alpha(1f).setDuration(500);
-
-            // On prépare l'index pour la prochaine fois (0, 1, 2, 3, 0, 1...)
             currentIndex++;
             if (currentIndex >= options.size()) {
                 currentIndex = 0;

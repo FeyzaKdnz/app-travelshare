@@ -11,7 +11,7 @@ public class TravelSharePhoto {
     @SerializedName("frame_id")
     private int frameId;
 
-    /* --- Getters / Setters --- */
+    /* --- Getters and Setters --- */
 
     public int getId() { return id; }
     public String getFilename() { return filename; }

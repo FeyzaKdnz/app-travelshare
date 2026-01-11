@@ -11,11 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 
-import com.bumptech.glide.Glide; // <--- L'IMPORT EST DE RETOUR
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
-import com.example.app_travelpath.MainActivity;
+import com.bumptech.glide.Glide;
 import com.example.app_travelpath.R;
 import com.example.app_travelpath.model.Spot;
 
@@ -25,9 +21,7 @@ public class ActiveJourneyActivity extends AppCompatActivity {
 
     private List<Spot> route;
     private int currentStepIndex = 0;
-
-    // UI Components
-    private TextView tvStepCounter, tvSpotName, tvSpotDetails, tvCategoryBadge;
+    private TextView tvStepCounter, tvSpotName, tvSpotDetails, tvCategoryBadge, tvOpeningHours;
     private ImageView imgSpotMain;
     private Button btnNextStep, btnViewOnMap, btnFinalize;
     private SearchView searchStep;
@@ -40,7 +34,7 @@ public class ActiveJourneyActivity extends AppCompatActivity {
         route = (List<Spot>) getIntent().getSerializableExtra("active_route");
 
         if (route == null || route.isEmpty()) {
-            Toast.makeText(this, "Erreur de chargement", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Erreur de chargement de la route.", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -48,7 +42,6 @@ public class ActiveJourneyActivity extends AppCompatActivity {
         initViews();
         loadSpot(currentStepIndex);
 
-        // Listeners
         btnNextStep.setOnClickListener(v -> {
             if (currentStepIndex < route.size() - 1) {
                 currentStepIndex++;
@@ -64,15 +57,12 @@ public class ActiveJourneyActivity extends AppCompatActivity {
         });
 
         btnFinalize.setOnClickListener(v -> {
-            // On lance la page de fin
             Intent intent = new Intent(ActiveJourneyActivity.this, EndJourneyActivity.class);
-            // On passe la route pour pouvoir la sauvegarder
             intent.putExtra("finished_route", (java.io.Serializable) route);
             startActivity(intent);
-            finish(); // On ferme l'activité active pour ne pas pouvoir revenir en arrière avec "Back"
+            finish();
         });
 
-        // Recherche
         searchStep.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -95,21 +85,23 @@ public class ActiveJourneyActivity extends AppCompatActivity {
         btnViewOnMap = findViewById(R.id.btnViewOnMap);
         btnFinalize = findViewById(R.id.btnFinalize);
         searchStep = findViewById(R.id.searchStep);
+        tvOpeningHours = findViewById(R.id.tvOpeningHours);
     }
 
     private void loadSpot(int index) {
         Spot spot = route.get(index);
 
-        // Textes
         tvStepCounter.setText("Step " + (index + 1) + " of " + route.size());
         tvSpotName.setText(spot.getName());
         tvSpotDetails.setText("Category: " + spot.getCategoryType() + "\n" +
                 "Price: " + spot.getPrice() + "€\n" +
                 "Duration: " + spot.getDuration() + "h");
+
         tvCategoryBadge.setText(String.valueOf(spot.getCategoryType()));
 
-        // --- 1. CHOIX DE L'IMAGE PAR DÉFAUT (Local) ---
         int defaultImageResId;
+
+        /* -------------- GESTION TYPE DE LIEU -------------- */
 
         if (spot.getCategoryType() != null) {
             switch (spot.getCategoryType()) {
@@ -122,7 +114,7 @@ public class ActiveJourneyActivity extends AppCompatActivity {
                     break;
                 case LEISURE:
                 case DISCOVERY:
-                    defaultImageResId = R.drawable.culture; // Ou detente si tu as l'image
+                    defaultImageResId = R.drawable.culture;
                     break;
                 default:
                     defaultImageResId = R.drawable.colmar;
@@ -132,35 +124,46 @@ public class ActiveJourneyActivity extends AppCompatActivity {
             defaultImageResId = R.drawable.colmar;
         }
 
-        // --- 2. CHARGEMENT INTELLIGENT AVEC GLIDE ---
+        /* ---------- AFFICHAGE DE L'IMAGE AVEC GLIDE ET TRAVELSHARE ---------- */
 
-        // On vérifie si on a une photo de l'API TravelShare
         if (spot.getExternalImageUrl() != null && !spot.getExternalImageUrl().isEmpty()) {
 
-            // CAS A : On a une URL externe
             Glide.with(this)
-                    .load(spot.getExternalImageUrl()) // On charge l'URL
-                    .placeholder(defaultImageResId)   // On montre l'icône locale pendant le chargement
-                    .error(defaultImageResId)         // On montre l'icône locale si ça échoue
+                    .load(spot.getExternalImageUrl())
+                    .placeholder(defaultImageResId)
+                    .error(defaultImageResId)
                     .centerCrop()
                     .into(imgSpotMain);
 
         } else {
 
-            // CAS B : Pas d'URL, on charge l'image locale
             Glide.with(this)
                     .load(defaultImageResId)
                     .centerCrop()
                     .into(imgSpotMain);
         }
 
-        // Gestion bouton Next
         if (index == route.size() - 1) {
             btnNextStep.setText("Finish");
-            // btnNextStep.setEnabled(false); // Tu peux laisser actif pour finaliser
         } else {
             btnNextStep.setText("Next Step");
             btnNextStep.setEnabled(true);
+        }
+
+        String detailsText = "Category: " + spot.getCategoryType() + "\n" +
+                "Price: " + spot.getPrice() + "€\n" +
+                "Duration: " + spot.getDuration() + "h";
+
+        tvSpotDetails.setText(detailsText);
+
+        /* --------- GESTION DES HORAIRES D'OUVERTURE --------- */
+
+        if (spot.getOpeningHours() != null && !spot.getOpeningHours().isEmpty()) {
+            tvOpeningHours.setVisibility(android.view.View.VISIBLE);
+            String cleanHours = spot.getOpeningHours().replace(";", "\n");
+            tvOpeningHours.setText("OPENING HOURS :\n" + cleanHours);
+        } else {
+            tvOpeningHours.setVisibility(android.view.View.GONE);
         }
     }
 

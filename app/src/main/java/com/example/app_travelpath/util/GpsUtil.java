@@ -2,13 +2,10 @@ package com.example.app_travelpath.util;
 
 public class GpsUtil {
 
-    // Rayon de la terre en km
     private static final int EARTH_RADIUS = 6371;
 
-    /**
-     * Calcule la distance en kilomètres entre deux points GPS (Latitude/Longitude)
-     * Utilise la formule de Haversine.
-     */
+    /* Calcule la distance en kilomètres entre deux points GPS : utilise la formule de Haversine. */
+
     public static double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
         double dLat = Math.toRadians(lat2 - lat1);
         double dLon = Math.toRadians(lon2 - lon1);

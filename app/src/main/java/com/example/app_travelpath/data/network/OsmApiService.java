@@ -14,7 +14,6 @@ public interface OsmApiService {
     @GET
     Call<List<NominatimResult>> searchCity(@Url String url, @Query("q") String cityName, @Query("format") String format, @Query("limit") int limit);
 
-    // --- NOUVEAU : Appel Météo ---
     @GET
     Call<WeatherResponse> getCurrentWeather(
         @Url String url,

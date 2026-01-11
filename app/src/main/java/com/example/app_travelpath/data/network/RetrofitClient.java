@@ -20,7 +20,6 @@ public class RetrofitClient {
     public static OsmApiService getService() {
         if (retrofit == null) {
 
-            // Interceptor pour ajouter le User-Agent et le Referer
             Interceptor headerInterceptor = new Interceptor() {
                 @Override
                 public Response intercept(Chain chain) throws IOException {
@@ -43,15 +42,14 @@ public class RetrofitClient {
                     .writeTimeout(90, TimeUnit.SECONDS)
                     .build();
 
-            // GSON Lenient : Tolère quelques erreurs de format (utile si le serveur renvoie un HTML par erreur)
             Gson gson = new GsonBuilder()
                     .setLenient()
                     .create();
 
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL) // Cette URL de base sert juste de point de départ
+                    .baseUrl(BASE_URL)
                     .client(okHttpClient)
-                    .addConverterFactory(GsonConverterFactory.create(gson)) // <--- Modification ici
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
         return retrofit.create(OsmApiService.class);

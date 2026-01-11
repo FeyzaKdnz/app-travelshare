@@ -34,15 +34,10 @@ public class EndJourneyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_journey);
 
-        // 1. Récupérer les données du voyage fini
         completedRoute = (List<Spot>) getIntent().getSerializableExtra("finished_route");
-
-        // 2. Init UI
         btnSaveJourney = findViewById(R.id.btnSaveJourney);
         btnHome = findViewById(R.id.btnHome);
         tvSavePrompt = findViewById(R.id.tvSavePrompt);
-
-        // 3. Logique Bouton Save
         btnSaveJourney.setOnClickListener(v -> {
             if (!isSaved) {
                 showSaveDialog();
@@ -51,10 +46,8 @@ public class EndJourneyActivity extends AppCompatActivity {
             }
         });
 
-        // 4. Logique Bouton Home
         btnHome.setOnClickListener(v -> {
             Intent intent = new Intent(EndJourneyActivity.this, MainActivity.class);
-            // On vide toute la pile d'activités pour revenir "proprement" à l'accueil
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
@@ -98,9 +91,8 @@ public class EndJourneyActivity extends AppCompatActivity {
 
             runOnUiThread(() -> {
                 isSaved = true;
-                // On change l'apparence du bouton pour dire "C'est fait"
                 btnSaveJourney.setText("Trip Saved ✓");
-                btnSaveJourney.setEnabled(false); // On désactive le clic
+                btnSaveJourney.setEnabled(false);
                 btnSaveJourney.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
                 tvSavePrompt.setText("Memory safely stored.");
 

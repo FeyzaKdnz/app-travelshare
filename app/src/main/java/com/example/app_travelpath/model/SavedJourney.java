@@ -13,11 +13,8 @@ public class SavedJourney {
     public int id;
 
     public String name;
-    
-    // MODIFICATION : On stocke la date sous forme de String lisible (ex: "05/01/2026")
     public String date;
 
-    // On utilise notre convertisseur pour stocker la liste des spots en JSON
     @TypeConverters(DataConverter.class)
     public List<Spot> spotList;
 

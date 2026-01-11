@@ -22,6 +22,8 @@ public class Spot implements Serializable {
     @androidx.room.Ignore
     private String externalImageUrl;
 
+    private String openingHours;
+
     public Spot() {
     }
 
@@ -67,4 +69,7 @@ public class Spot implements Serializable {
 
     public String getExternalImageUrl() { return externalImageUrl; }
     public void setExternalImageUrl(String url) { this.externalImageUrl = url; }
+
+    public String getOpeningHours() { return openingHours; }
+    public void setOpeningHours(String openingHours) { this.openingHours = openingHours; }
 }

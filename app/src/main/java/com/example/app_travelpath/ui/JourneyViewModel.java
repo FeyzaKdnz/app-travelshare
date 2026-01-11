@@ -14,7 +14,6 @@ import java.util.List;
 public class JourneyViewModel extends AndroidViewModel {
 
     private final SpotRepository repository;
-    // Les LiveData sont des variables "observables" par l'interface
     private final MutableLiveData<List<Spot>> spots = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
@@ -29,11 +28,9 @@ public class JourneyViewModel extends AndroidViewModel {
     public LiveData<String> getErrorMessage() { return errorMessage; }
 
     public void searchCity(String city) {
-        isLoading.setValue(true); // On affiche le chargement
+        isLoading.setValue(true);
 
-        // Appel asynchrone au Repository
         repository.getSpotsByCity(city).thenAccept(resultList -> {
-            // "postValue" permet de mettre à jour l'UI depuis un thread d'arrière-plan
             spots.postValue(resultList);
             isLoading.postValue(false);
         }).exceptionally(throwable -> {

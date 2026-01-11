@@ -42,14 +42,13 @@ public class SpotRepository {
         CompletableFuture<List<Spot>> future = new CompletableFuture<>();
 
         executor.execute(() -> {
-            // On vérifie le cache local
             List<Spot> localSpots = spotDao.getSpotsByCity(city);
 
             if (!localSpots.isEmpty()) {
-                Log.d("REPO", "Données trouvées en local pour : " + city);
+                Log.i("REPO", "Données trouvées en local pour : " + city);
                 future.complete(localSpots);
             } else {
-                Log.d("REPO", "Rien en local, appel API pour : " + city);
+                Log.i("REPO", "Rien en local, appel API pour : " + city);
                 fetchFromNetwork(city, future);
             }
         });
@@ -58,7 +57,6 @@ public class SpotRepository {
     }
 
     private void fetchFromNetwork(String city, CompletableFuture<List<Spot>> future) {
-        // 1. Géocodage (Nominatim)
         String geocodeUrl = "https://nominatim.openstreetmap.org/search";
 
         apiService.searchCity(geocodeUrl, city, "json", 5).enqueue(new Callback<List<NominatimResult>>() {
@@ -66,7 +64,6 @@ public class SpotRepository {
             public void onResponse(Call<List<NominatimResult>> call, Response<List<NominatimResult>> response) {
                 if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
 
-                    // Trouver le meilleur résultat
                     NominatimResult bestMatch = response.body().get(0);
                     for (NominatimResult result : response.body()) {
                         if (result.importance > bestMatch.importance) bestMatch = result;
@@ -76,7 +73,6 @@ public class SpotRepository {
                     double lon = Double.parseDouble(bestMatch.lon);
                     Log.d("REPO", "Ville trouvée : " + bestMatch.display_name);
 
-                    // Lancer la recherche optimisée
                     fetchSpotsAroundOptimized(city, lat, lon, future);
 
                 } else {
@@ -104,17 +100,20 @@ public class SpotRepository {
         String bbox = "(" + south + "," + west + "," + north + "," + east + ")";
         String query = "[out:json][timeout:200];" +
                 "(" +
-                // CULTURE
+                /* ----- CULTURE ----- */
+
                 "  node" + bbox + "[\"tourism\"=\"museum\"];" +
                 "  node" + bbox + "[\"tourism\"=\"attraction\"];" +
                 "  node" + bbox + "[\"historic\"=\"monument\"];" +
                 "  node" + bbox + "[\"historic\"=\"castle\"];" +
 
-                // FOOD
+                /* ----- GASTRONOMIE ----- */
+
                 "  node" + bbox + "[\"amenity\"=\"restaurant\"];" +
                 "  node" + bbox + "[\"amenity\"=\"cafe\"];" +
 
-                // LEISURE
+                /* ----- LOISIR ----- */
+
                 "  node" + bbox + "[\"leisure\"=\"park\"];" +
                 "  way"  + bbox + "[\"leisure\"=\"park\"];" +
                 "  node" + bbox + "[\"leisure\"=\"garden\"];" +
@@ -159,12 +158,12 @@ public class SpotRepository {
     }
 
     private Spot mapElementToSpot(String city, OsmElement element) {
+
         Map<String, String> tags = element.tags;
         if (tags == null || !tags.containsKey("name")) return null;
 
         String name = tags.get("name");
 
-        // Gestion coordonnée (Node simple ou Way centré)
         double lat = element.lat;
         double lon = element.lon;
         if (element.center != null) {
@@ -183,21 +182,20 @@ public class SpotRepository {
         String historic = tags.get("historic");
         String landuse = tags.get("landuse");
 
-        // 1. LEISURE
+        /* ------------- LOGIQUE DE CLASSIFICATION ------------- */
+
         if ("park".equals(leisure) || "garden".equals(leisure) || "grass".equals(landuse)) {
             category = CategoryType.LEISURE;
             price = 0.0;
             effort = EffortLevel.LOW;
             duration = 1.0;
         }
-        // 2. CULTURE
         else if ("museum".equals(tourism) || "attraction".equals(tourism) || historic != null) {
             category = CategoryType.CULTURE;
             price = 10.0 + (Math.random() * 15);
             effort = EffortLevel.MEDIUM;
             duration = 2.0;
         }
-        // 3. FOOD
         else if ("restaurant".equals(amenity) || "cafe".equals(amenity) || "bar".equals(amenity)) {
             category = CategoryType.FOOD;
             price = 15.0 + (Math.random() * 25);
@@ -206,7 +204,13 @@ public class SpotRepository {
         }
 
         price = Math.round(price * 10.0) / 10.0;
+        Spot spot = new Spot(city, name, lat, lon, category, price, effort, duration, null);
 
-        return new Spot(city, name, lat, lon, category, price, effort, duration, null);
+        if (tags.containsKey("opening_hours")) {
+            String hours = tags.get("opening_hours");
+            spot.setOpeningHours(hours);
+        }
+
+        return spot;
     }
 }

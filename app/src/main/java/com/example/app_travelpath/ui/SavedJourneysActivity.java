@@ -3,8 +3,8 @@ package com.example.app_travelpath.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton; // Import ajouté
-import android.widget.LinearLayout; // Import ajouté pour le nouvel EmptyState
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +23,7 @@ public class SavedJourneysActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private SavedJourneysAdapter adapter;
-    private LinearLayout layoutEmptyState; // Changé de TextView à LinearLayout
+    private LinearLayout layoutEmptyState;
     private ImageButton btnBack;
 
     @Override
@@ -32,21 +32,16 @@ public class SavedJourneysActivity extends AppCompatActivity {
         setContentView(R.layout.activity_saved_journeys);
 
         recyclerView = findViewById(R.id.recyclerSavedJourneys);
-        layoutEmptyState = findViewById(R.id.tvEmptyState); // L'ID est resté le même mais c'est un Layout
+        layoutEmptyState = findViewById(R.id.tvEmptyState);
         btnBack = findViewById(R.id.btnBack);
-
-        // Action bouton retour
         btnBack.setOnClickListener(v -> finish());
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new SavedJourneysAdapter();
         recyclerView.setAdapter(adapter);
 
-        // Clic sur un item
         adapter.setOnItemClickListener(journey -> {
             Intent intent = new Intent(SavedJourneysActivity.this, JourneyResultActivity.class);
             intent.putExtra("final_route", (Serializable) journey.spotList);
-            // On peut aussi passer le nom si besoin pour l'affichage
             startActivity(intent);
         });
 

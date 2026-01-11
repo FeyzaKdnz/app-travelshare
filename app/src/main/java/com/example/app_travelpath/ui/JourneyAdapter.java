@@ -47,26 +47,22 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.SpotView
         holder.name.setText((position + 1) + ". " + spot.getName());
         holder.details.setText(spot.getCategoryType() + " • " + spot.getPrice() + "€");
 
-        // --- GESTION INTELLIGENTE DES IMAGES ---
+        /* -------- GESTION DES IMAGES -------- */
 
-        // 1. D'abord, on vérifie si on a une vraie photo venant de TravelShare (l'API du binôme)
         if (spot.getExternalImageUrl() != null && !spot.getExternalImageUrl().isEmpty()) {
 
             Glide.with(holder.itemView.getContext())
                     .load(spot.getExternalImageUrl())
-                    .placeholder(R.drawable.culture) // Image d'attente
-                    .error(R.drawable.culture)       // En cas d'erreur de chargement
+                    .placeholder(R.drawable.culture)
+                    .error(R.drawable.culture)
                     .centerCrop()
-                    .into(holder.image); // <--- CORRECTION : On utilise 'holder.image' défini en bas
+                    .into(holder.image);
 
         } else {
-            // 2. Sinon, on met l'image par défaut selon la catégorie
             if (spot.getCategoryType() != null) {
                 switch (spot.getCategoryType()) {
                     case MUSEUM:
                     case CULTURE:
-                        // Assure-toi que ces drawables (culture, food, detente) existent bien !
-                        // Sinon remplace par R.drawable.bg_paris ou autre
                         holder.image.setImageResource(R.drawable.culture);
                         break;
                     case FOOD:
@@ -85,7 +81,6 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.SpotView
             }
         }
 
-        // Clic sur l'élément
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) listener.onItemClick(spot);
         });
@@ -94,19 +89,16 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.SpotView
     @Override
     public int getItemCount() { return spots.size(); }
 
-    // --- ViewHolder ---
     static class SpotViewHolder extends RecyclerView.ViewHolder {
-        // C'est ici qu'on définit les noms des variables JAVA
         TextView name;
         TextView details;
-        ImageView image; // <--- La variable s'appelle "image"
+        ImageView image;
 
         public SpotViewHolder(@NonNull View itemView) {
             super(itemView);
-            // On lie les variables Java aux IDs XML
             name = itemView.findViewById(R.id.tvName);
             details = itemView.findViewById(R.id.tvInfo);
-            image = itemView.findViewById(R.id.imgSpot);   // "image" contrôle l'ImageView "imgSpot"
+            image = itemView.findViewById(R.id.imgSpot);
         }
     }
 }

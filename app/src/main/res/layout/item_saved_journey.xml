@@ -61,7 +61,8 @@
             android:layout_height="24dp"
             android:src="@drawable/ic_arrow_back"
             android:rotation="180"
-            app:tint="#E0E0E0"/>
+            app:tint="#E0E0E0"
+            android:contentDescription="@string/back"/>
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
