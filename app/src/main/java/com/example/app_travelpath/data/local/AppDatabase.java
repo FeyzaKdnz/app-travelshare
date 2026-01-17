@@ -10,7 +10,6 @@ import com.example.app_travelpath.model.Spot;
 import com.example.app_travelpath.model.SavedJourney;
 import com.example.app_travelpath.model.User;
 
-// PASSAGE EN VERSION 6 (Ajout du champ likedByUsers dans SavedJourney)
 @Database(entities = {Spot.class, SavedJourney.class, User.class}, version = 6, exportSchema = false)
 @TypeConverters({Converters.class, DataConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
@@ -25,7 +24,7 @@ public abstract class AppDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     AppDatabase.class, "travel_path_database")
-                            .fallbackToDestructiveMigration() // Va recréer la base proprement
+                            .fallbackToDestructiveMigration()
                             .build();
                 }
             }

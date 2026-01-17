@@ -14,7 +14,6 @@ public interface TravelShareApiService {
             @Query("radiusKm") int radiusKm
     );
 
-    // Nouvelle méthode pour récupérer un Frame par son ID afin d'avoir l'auteur
     @GET("frames/{id}")
     Call<TravelShareFrame> getFrameById(@Path("id") int frameId);
 }

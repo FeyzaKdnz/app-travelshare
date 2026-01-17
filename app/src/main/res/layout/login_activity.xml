@@ -5,15 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Carrousel d'images (Fond) -->
     <ImageView
         android:id="@+id/imgBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        tools:src="@drawable/shinjuku" />
+        tools:src="@drawable/img_shinjuku" />
 
-    <!-- Overlay dégradé -->
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,7 +27,6 @@
             android:layout_height="wrap_content"
             android:padding="24dp">
 
-            <!-- Bouton Retour -->
             <LinearLayout
                 android:id="@+id/btnBackLayout"
                 android:layout_width="wrap_content"
@@ -51,14 +48,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Back"
+                    android:text="@string/back"
                     android:textColor="@android:color/white"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:layout_marginStart="8dp" />
             </LinearLayout>
 
-            <!-- Carte de connexion -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -82,17 +78,16 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Welcome back!"
+                        android:text="@string/welcome_back"
                         android:textSize="22sp"
                         android:textStyle="bold"
                         android:textColor="#1E232C"
                         android:layout_marginBottom="32dp"/>
 
-                    <!-- Champ Email -->
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Enter email"
+                        android:text="@string/enter_email"
                         android:textColor="#1E232C"
                         android:textSize="14sp"
                         android:layout_marginBottom="8dp"/>
@@ -103,16 +98,15 @@
                         android:layout_height="56dp"
                         android:background="@drawable/bg_effort_card_selector"
                         android:backgroundTint="#FFFFFF"
-                        android:hint="Email"
+                        android:hint="@string/email"
                         android:paddingHorizontal="16dp"
                         android:inputType="textEmailAddress"
                         android:layout_marginBottom="16dp"/>
 
-                    <!-- Champ Password -->
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Enter password"
+                        android:text="@string/enter_password"
                         android:textColor="#1E232C"
                         android:textSize="14sp"
                         android:layout_marginBottom="8dp"/>
@@ -123,17 +117,16 @@
                         android:layout_height="56dp"
                         android:background="@drawable/bg_effort_card_selector"
                         android:backgroundTint="#FFFFFF"
-                        android:hint="Password"
+                        android:hint="@string/password"
                         android:paddingHorizontal="16dp"
                         android:inputType="textPassword"
                         android:layout_marginBottom="32dp"/>
 
-                    <!-- Bouton Login -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnLogin"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
-                        android:text="Log in"
+                        android:text="@string/log_in"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:textColor="@android:color/white"
@@ -141,12 +134,11 @@
                         app:cornerRadius="8dp"
                         android:layout_marginBottom="40dp" />
 
-                    <!-- Lien vers Register -->
                     <TextView
                         android:id="@+id/tvRegisterNow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Don't have an account? Register now."
+                        android:text="@string/don_t_have_an_account_register_now"
                         android:textColor="#35C2C1"
                         android:textSize="14sp"
                         android:textStyle="bold"

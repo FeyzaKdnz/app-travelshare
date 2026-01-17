@@ -19,9 +19,6 @@ public class SavedJourney {
 
     public boolean isShared = false;
     public int likesCount = 0;
-
-    // NOUVEAU : Liste des utilisateurs qui ont liké ce parcours
-    // Cela permet de savoir si l'utilisateur actuel a déjà liké
     public List<String> likedByUsers = new ArrayList<>();
 
     @TypeConverters(DataConverter.class)

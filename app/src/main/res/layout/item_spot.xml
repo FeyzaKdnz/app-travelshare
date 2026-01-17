@@ -17,7 +17,7 @@
             android:id="@+id/imgSpot"
             android:layout_width="90dp"
             android:layout_height="90dp"
-            android:src="@drawable/culture"
+            android:src="@drawable/img_culture"
             android:scaleType="centerCrop"
             android:contentDescription="@string/spot_image" />
 

@@ -37,7 +37,6 @@ public class RegisterActivity extends AppCompatActivity {
     private Handler handler = new Handler(Looper.getMainLooper());
     private Runnable carouselRunnable;
     private ImageView imgBackground;
-    // Note: On n'affiche pas tvCityLocation sur cette vue d'après le Figma, mais on le garde pour la cohérence
     private TextView tvCityLocation;
 
     @Override
@@ -46,7 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.register_activity);
 
         imgBackground = findViewById(R.id.imgBackground);
-        tvCityLocation = findViewById(R.id.tvCityLocation); // Sera null si pas dans le XML, ce qui est géré
+        tvCityLocation = findViewById(R.id.tvCityLocation);
         EditText etUsername = findViewById(R.id.etUsername);
         EditText etEmail = findViewById(R.id.etEmail);
         EditText etPassword = findViewById(R.id.etPassword);
@@ -105,20 +104,20 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void initBackgroundOptions() {
-        options.add(new BackgroundOption(R.drawable.manarola, "Manarola, Italia"));
-        options.add(new BackgroundOption(R.drawable.istanbul3, "Istanbul, Türkiye"));
-        options.add(new BackgroundOption(R.drawable.colmar, "Colmar, France"));
-        options.add(new BackgroundOption(R.drawable.shinjuku, "Shinjuku, Japan"));
-        options.add(new BackgroundOption(R.drawable.edinburg, "Edinburgh, Scotland"));
-        options.add(new BackgroundOption(R.drawable.georgia, "Tbilisi, Georgia"));
-        options.add(new BackgroundOption(R.drawable.venise, "Venice, Italia"));
-        options.add(new BackgroundOption(R.drawable.capadocce, "Cappadocia, Türkiye"));
-        options.add(new BackgroundOption(R.drawable.paris, "Paris, France"));
-        options.add(new BackgroundOption(R.drawable.iran, "Shiraz, Iran"));
-        options.add(new BackgroundOption(R.drawable.grece, "Mykonos, Greece"));
-        options.add(new BackgroundOption(R.drawable.istanbul2, "Istanbul, Türkiye"));
-        options.add(new BackgroundOption(R.drawable.kirgiz, "Kara-Köl, Kyrgyzstan"));
-        options.add(new BackgroundOption(R.drawable.roma, "Roma, Italia"));
+        options.add(new BackgroundOption(R.drawable.img_manarola, "Manarola, Italia"));
+        options.add(new BackgroundOption(R.drawable.img_istanbul3, "Istanbul, Türkiye"));
+        options.add(new BackgroundOption(R.drawable.img_colmar, "Colmar, France"));
+        options.add(new BackgroundOption(R.drawable.img_shinjuku, "Shinjuku, Japan"));
+        options.add(new BackgroundOption(R.drawable.img_edinburg, "Edinburgh, Scotland"));
+        options.add(new BackgroundOption(R.drawable.img_georgia, "Tbilisi, Georgia"));
+        options.add(new BackgroundOption(R.drawable.img_venise, "Venice, Italia"));
+        options.add(new BackgroundOption(R.drawable.img_capadocce, "Cappadocia, Türkiye"));
+        options.add(new BackgroundOption(R.drawable.img_paris, "Paris, France"));
+        options.add(new BackgroundOption(R.drawable.img_iran, "Shiraz, Iran"));
+        options.add(new BackgroundOption(R.drawable.img_grece, "Mykonos, Greece"));
+        options.add(new BackgroundOption(R.drawable.img_istanbul2, "Istanbul, Türkiye"));
+        options.add(new BackgroundOption(R.drawable.img_kirgiz, "Kara-Köl, Kyrgyzstan"));
+        options.add(new BackgroundOption(R.drawable.img_roma, "Roma, Italia"));
     }
 
     @Override

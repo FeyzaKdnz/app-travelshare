@@ -129,7 +129,6 @@ public class ExploreActivity extends AppCompatActivity {
     }
 
     private void handleLike(SavedJourney journey, int position) {
-        // 1. Récupérer l'utilisateur actuel
         SharedPreferences prefs = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         String currentUsername = prefs.getString("logged_in_username", "Guest");
 
@@ -137,24 +136,19 @@ public class ExploreActivity extends AppCompatActivity {
             journey.likedByUsers = new ArrayList<>();
         }
 
-        // 2. Logique de bascule (Toggle)
         if (journey.likedByUsers.contains(currentUsername)) {
-            // Déjà liké -> On retire le like
             journey.likedByUsers.remove(currentUsername);
             journey.likesCount--;
             Toast.makeText(this, "Like removed", Toast.LENGTH_SHORT).show();
         } else {
-            // Pas encore liké -> On ajoute le like
             journey.likedByUsers.add(currentUsername);
             journey.likesCount++;
             Toast.makeText(this, "You liked this trip!", Toast.LENGTH_SHORT).show();
         }
 
-        // 3. Sauvegarde asynchrone
         Executors.newSingleThreadExecutor().execute(() -> {
             AppDatabase.getDatabase(this).savedJourneyDao().update(journey);
             runOnUiThread(() -> {
-                // Mise à jour de la mémoire locale et de l'adaptateur
                 for (SavedJourney j : allSharedJourneys) {
                     if (j.id == journey.id) {
                         j.likesCount = journey.likesCount;

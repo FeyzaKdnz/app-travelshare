@@ -60,15 +60,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/paris"
+                    android:src="@drawable/img_paris"
                     tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/tvAuthorName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Photo by: Mehdi Bakhtar"
-                    android:textSize="10sp"
+                    android:text="@string/photo_by"
+                    android:textSize="11sp"
                     android:textColor="#FFFFFF"
                     android:background="#80000000"
                     android:paddingHorizontal="8dp"

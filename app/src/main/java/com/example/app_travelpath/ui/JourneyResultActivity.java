@@ -88,7 +88,7 @@ public class JourneyResultActivity extends AppCompatActivity {
         ImageButton btnHome = findViewById(R.id.btnHome);
         
         ImageView imgHeaderBg = findViewById(R.id.imgHeaderBg);
-        imgHeaderBg.setImageResource(R.drawable.trip);
+        imgHeaderBg.setImageResource(R.drawable.img_trip);
 
         imgWeatherIcon = findViewById(R.id.imgWeatherIcon);
         tvWeatherTemp = findViewById(R.id.tvWeatherTemp);
@@ -305,7 +305,6 @@ public class JourneyResultActivity extends AppCompatActivity {
                                     android.location.Location.distanceBetween(mySpot.getLatitude(), mySpot.getLongitude(), photo.getLatitude(), photo.getLongitude(), results);
                                     if (results[0] < 200) {
                                         mySpot.setExternalImageUrl(photo.getFullImageUrl());
-                                        // Appel pour récupérer l'auteur via le frame_id
                                         fetchAuthorName(mySpot, photo.getFrameId());
                                         break;
                                     }

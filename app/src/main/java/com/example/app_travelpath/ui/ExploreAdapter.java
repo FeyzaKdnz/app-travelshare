@@ -49,13 +49,9 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ExploreV
         holder.tvAuthor.setText("by " + journey.creatorUsername);
         holder.tvDate.setText(journey.date);
         holder.tvLikeCount.setText(String.valueOf(journey.likesCount));
-
-        // On gère le clic sur la carte
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) listener.onItemClick(journey);
         });
-
-        // On gère le clic sur le bouton Like
         holder.btnLike.setOnClickListener(v -> {
             if (listener != null) listener.onLikeClick(journey, position);
         });

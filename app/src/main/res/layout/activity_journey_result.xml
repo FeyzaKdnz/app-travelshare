@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/trip"
+        android:src="@drawable/img_trip"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
 
@@ -44,13 +44,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Your Custom Route"
+            android:text="@string/your_custom_route"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginStart="16dp"/>
 
-        <!-- BOUTON RETOUR ACCUEIL (Haut Droite) -->
         <ImageButton
             android:id="@+id/btnHome"
             android:layout_width="40dp"
@@ -82,7 +81,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Trip Overview"
+                android:text="@string/trip_overview"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_marginBottom="16dp"/>
@@ -100,7 +99,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Total Cost"
+                        android:text="@string/total_cost"
                         android:textColor="#757575"
                         android:textSize="12sp"/>
                     <TextView
@@ -129,7 +128,7 @@
                     <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Weather"
+                    android:text="@string/weather"
                     android:textColor="#757575"
                     android:textSize="12sp"/>
 
@@ -165,7 +164,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Est. Duration"
+                        android:text="@string/est_duration"
                         android:textColor="#757575"
                         android:textSize="12sp"/>
                     <TextView
@@ -207,7 +206,7 @@
             android:id="@+id/btnStartJourney"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="Start Journey"
+            android:text="@string/start_journey"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@android:color/white"
@@ -229,7 +228,7 @@
                 android:layout_width="0dp"
                 android:layout_height="55dp"
                 android:layout_weight="1"
-                android:text="Map View"
+                android:text="@string/map_view"
                 android:textSize="11sp"
                 android:textColor="#000000"
                 app:backgroundTint="#F0F0F0"
@@ -246,7 +245,7 @@
                 android:layout_width="0dp"
                 android:layout_height="55dp"
                 android:layout_weight="1"
-                android:text="Shuffle"
+                android:text="@string/shuffle"
                 android:textSize="11sp"
                 android:textColor="#000000"
                 app:backgroundTint="#F0F0F0"
@@ -263,7 +262,7 @@
                 android:layout_width="0dp"
                 android:layout_height="55dp"
                 android:layout_weight="1"
-                android:text="Export"
+                android:text="@string/export"
                 android:textSize="11sp"
                 android:textColor="#000000"
                 app:backgroundTint="#F0F0F0"
@@ -280,7 +279,7 @@
             android:id="@+id/btnSaveJourney"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="Save This Trip"
+            android:text="@string/save_this_trip"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="#000000"
@@ -294,7 +293,7 @@
             android:id="@+id/btnShareJourney"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="Share with Community"
+            android:text="@string/share_with_community"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="#FFFFFF"

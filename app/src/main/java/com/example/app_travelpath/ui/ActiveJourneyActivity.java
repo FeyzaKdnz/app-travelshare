@@ -86,7 +86,7 @@ public class ActiveJourneyActivity extends AppCompatActivity {
         btnFinalize = findViewById(R.id.btnFinalize);
         searchStep = findViewById(R.id.searchStep);
         tvOpeningHours = findViewById(R.id.tvOpeningHours);
-        tvAuthorName = findViewById(R.id.tvAuthorName); // Liaison correcte ici
+        tvAuthorName = findViewById(R.id.tvAuthorName);
     }
 
     private void loadSpot(int index) {
@@ -108,21 +108,21 @@ public class ActiveJourneyActivity extends AppCompatActivity {
             switch (spot.getCategoryType()) {
                 case CULTURE:
                 case MUSEUM:
-                    defaultImageResId = R.drawable.culture;
+                    defaultImageResId = R.drawable.img_culture;
                     break;
                 case FOOD:
-                    defaultImageResId = R.drawable.food;
+                    defaultImageResId = R.drawable.img_food;
                     break;
                 case LEISURE:
                 case DISCOVERY:
-                    defaultImageResId = R.drawable.culture;
+                    defaultImageResId = R.drawable.img_culture;
                     break;
                 default:
-                    defaultImageResId = R.drawable.colmar;
+                    defaultImageResId = R.drawable.img_colmar;
                     break;
             }
         } else {
-            defaultImageResId = R.drawable.colmar;
+            defaultImageResId = R.drawable.img_colmar;
         }
 
         /* ---------- AFFICHAGE DE L'IMAGE AVEC GLIDE ET TRAVELSHARE ---------- */

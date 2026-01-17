@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/bag"
+        android:src="@drawable/img_bag"
         android:alpha="0.8"
         tools:ignore="ContentDescription" />
 

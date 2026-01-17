@@ -83,14 +83,11 @@ public class EndJourneyActivity extends AppCompatActivity {
     }
 
     private void saveJourneyToDB(String name) {
-        // --- CORRECTION : Récupération de l'utilisateur connecté ---
         SharedPreferences prefs = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         String username = prefs.getString("logged_in_username", "Unknown");
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
         String date = sdf.format(new Date());
-
-        // On passe maintenant 4 arguments au constructeur, dont le username
         SavedJourney journey = new SavedJourney(name, date, username, completedRoute);
 
         Executors.newSingleThreadExecutor().execute(() -> {

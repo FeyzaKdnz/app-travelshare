@@ -20,7 +20,6 @@ public interface SavedJourneyDao {
     @Query("SELECT * FROM saved_journeys WHERE creatorUsername = :username ORDER BY date DESC")
     List<SavedJourney> getJourneysByUser(String username);
 
-    // NOUVEAU : Récupère tous les voyages partagés par la communauté
     @Query("SELECT * FROM saved_journeys WHERE isShared = 1 ORDER BY date DESC")
     List<SavedJourney> getSharedJourneys();
 

@@ -49,20 +49,20 @@ public class MainActivity extends AppCompatActivity {
         Button btnViewRoute = findViewById(R.id.btnViewRoute);
         Button btnProfile = findViewById(R.id.btnProfile);
 
-        options.add(new BackgroundOption(R.drawable.manarola, "Manarola, Italia"));
-        options.add(new BackgroundOption(R.drawable.istanbul3, "Istanbul, Türkiye"));
-        options.add(new BackgroundOption(R.drawable.colmar, "Colmar, France"));
-        options.add(new BackgroundOption(R.drawable.shinjuku, "Shinjuku, Japan"));
-        options.add(new BackgroundOption(R.drawable.edinburg, "Edinburgh, Scotland"));
-        options.add(new BackgroundOption(R.drawable.georgia, "Tbilisi, Georgia"));
-        options.add(new BackgroundOption(R.drawable.venise, "Venice, Italia"));
-        options.add(new BackgroundOption(R.drawable.capadocce, "Cappadocia, Türkiye"));
-        options.add(new BackgroundOption(R.drawable.paris, "Paris, France"));
-        options.add(new BackgroundOption(R.drawable.iran, "Shiraz, Iran"));
-        options.add(new BackgroundOption(R.drawable.grece, "Mykonos, Greece"));
-        options.add(new BackgroundOption(R.drawable.istanbul2, "Istanbul, Türkiye"));
-        options.add(new BackgroundOption(R.drawable.kirgiz, "Kara-Köl, Kyrgyzstan"));
-        options.add(new BackgroundOption(R.drawable.roma, "Roma, Italia"));
+        options.add(new BackgroundOption(R.drawable.img_manarola, "Manarola, Italia"));
+        options.add(new BackgroundOption(R.drawable.img_istanbul3, "Istanbul, Türkiye"));
+        options.add(new BackgroundOption(R.drawable.img_colmar, "Colmar, France"));
+        options.add(new BackgroundOption(R.drawable.img_shinjuku, "Shinjuku, Japan"));
+        options.add(new BackgroundOption(R.drawable.img_edinburg, "Edinburgh, Scotland"));
+        options.add(new BackgroundOption(R.drawable.img_georgia, "Tbilisi, Georgia"));
+        options.add(new BackgroundOption(R.drawable.img_venise, "Venice, Italia"));
+        options.add(new BackgroundOption(R.drawable.img_capadocce, "Cappadocia, Türkiye"));
+        options.add(new BackgroundOption(R.drawable.img_paris, "Paris, France"));
+        options.add(new BackgroundOption(R.drawable.img_iran, "Shiraz, Iran"));
+        options.add(new BackgroundOption(R.drawable.img_grece, "Mykonos, Greece"));
+        options.add(new BackgroundOption(R.drawable.img_istanbul2, "Istanbul, Türkiye"));
+        options.add(new BackgroundOption(R.drawable.img_kirgiz, "Kara-Köl, Kyrgyzstan"));
+        options.add(new BackgroundOption(R.drawable.img_roma, "Roma, Italia"));
 
         carouselRunnable = new Runnable() {
             @Override

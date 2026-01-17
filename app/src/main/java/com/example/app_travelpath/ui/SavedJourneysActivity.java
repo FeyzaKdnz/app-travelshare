@@ -91,14 +91,11 @@ public class SavedJourneysActivity extends AppCompatActivity {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
                 SavedJourney journeyToDelete = adapter.getJourneyAt(position);
-
-                // --- NOUVEAU : Boîte de dialogue de confirmation ---
                 AlertDialog.Builder builder = new AlertDialog.Builder(SavedJourneysActivity.this);
                 builder.setTitle("Confirm Deletion");
                 builder.setMessage("Are you sure you want to delete this trip?");
                 
                 builder.setPositiveButton("Yes", (dialog, which) -> {
-                    // Suppression confirmée
                     Executors.newSingleThreadExecutor().execute(() -> {
                         AppDatabase.getDatabase(SavedJourneysActivity.this).savedJourneyDao().delete(journeyToDelete);
                     });
@@ -112,12 +109,11 @@ public class SavedJourneysActivity extends AppCompatActivity {
                 });
 
                 builder.setNegativeButton("Cancel", (dialog, which) -> {
-                    // Action annulée : on remet l'élément en place visuellement
                     adapter.notifyItemChanged(position);
                     dialog.dismiss();
                 });
 
-                builder.setCancelable(false); // Empêche de fermer en cliquant à côté
+                builder.setCancelable(false);
                 builder.show();
             }
         };

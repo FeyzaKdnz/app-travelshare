@@ -11,19 +11,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        tools:src="@drawable/shinjuku" />
+        tools:src="@drawable/img_shinjuku" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/gradient_overlay" />
 
-    <!-- BOUTON PROFILE (Haut Gauche) -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Profile"
+        android:text="@string/profile"
         app:backgroundTint="#33FFFFFF"
         app:cornerRadius="20dp"
         app:icon="@drawable/outline_account_circle_24"
@@ -33,12 +32,11 @@
         app:layout_constraintStart_toStartOf="parent"
         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
 
-    <!-- BOUTON EXPLORE (Haut Droite) -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnExplore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Explore"
+        android:text="@string/explore"
         android:textColor="@android:color/white"
         app:backgroundTint="#33FFFFFF"
         app:cornerRadius="20dp"

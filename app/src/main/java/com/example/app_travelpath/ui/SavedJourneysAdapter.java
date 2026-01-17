@@ -41,8 +41,6 @@ public class SavedJourneysAdapter extends RecyclerView.Adapter<SavedJourneysAdap
         SavedJourney journey = journeys.get(position);
         holder.tvName.setText(journey.name);
         holder.tvDate.setText(journey.date);
-        
-        // Affichage du nombre de likes récoltés par ce parcours
         holder.tvLikeCount.setText(String.valueOf(journey.likesCount));
 
         holder.itemView.setOnClickListener(v -> {

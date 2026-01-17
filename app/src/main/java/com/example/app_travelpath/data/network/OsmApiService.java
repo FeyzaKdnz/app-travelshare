@@ -22,4 +22,7 @@ public interface OsmApiService {
         @Query("appid") String apiKey,
         @Query("units") String units
     );
+
+    @GET
+    Call<OsrmResponse> getRoute(@Url String url);
 }

@@ -7,7 +7,6 @@
     android:background="#FFFFFF"
     android:padding="24dp">
 
-    <!-- En-tête avec bouton retour -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,14 +26,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="My Profile"
+            android:text="@string/my_profile"
             android:textColor="#000000"
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_marginStart="16dp"/>
     </LinearLayout>
 
-    <!-- Informations Utilisateur -->
     <TextView
         android:id="@+id/tvUsername"
         android:layout_width="match_parent"
@@ -53,17 +51,17 @@
         android:textColor="#757575"
         android:layout_marginBottom="40dp"/>
 
-    <!-- Bouton Liked Trips -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLikedTrips"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="Liked trips : 0"
+        android:text="@string/liked_trips"
         android:textColor="#000000"
         android:textSize="16sp"
         android:textAllCaps="false"
         android:gravity="start|center_vertical"
         android:paddingStart="20dp"
+        android:paddingEnd="20dp"
         app:icon="@drawable/outline_bookmark_heart_24"
         app:iconTint="#000000"
         app:iconPadding="12dp"
@@ -72,17 +70,17 @@
         android:layout_marginBottom="12dp"
         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
 
-    <!-- Bouton Parameters -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnParameters"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="Parameters"
+        android:text="@string/parameters"
         android:textColor="#000000"
         android:textSize="16sp"
         android:textAllCaps="false"
         android:gravity="start|center_vertical"
         android:paddingStart="20dp"
+        android:paddingEnd="20dp"
         app:icon="@drawable/outline_settings_24"
         app:iconTint="#000000"
         app:iconPadding="12dp"
@@ -96,12 +94,11 @@
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
-    <!-- Bouton Logout -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="Log out"
+        android:text="@string/log_out"
         android:textColor="#D32F2F"
         android:textSize="16sp"
         android:textStyle="bold"

@@ -53,8 +53,8 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.SpotView
 
             Glide.with(holder.itemView.getContext())
                     .load(spot.getExternalImageUrl())
-                    .placeholder(R.drawable.culture)
-                    .error(R.drawable.culture)
+                    .placeholder(R.drawable.img_culture)
+                    .error(R.drawable.img_culture)
                     .centerCrop()
                     .into(holder.image);
 
@@ -63,21 +63,21 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.SpotView
                 switch (spot.getCategoryType()) {
                     case MUSEUM:
                     case CULTURE:
-                        holder.image.setImageResource(R.drawable.culture);
+                        holder.image.setImageResource(R.drawable.img_culture);
                         break;
                     case FOOD:
-                        holder.image.setImageResource(R.drawable.food);
+                        holder.image.setImageResource(R.drawable.img_food);
                         break;
                     case LEISURE:
                     case DISCOVERY:
-                        holder.image.setImageResource(R.drawable.detente);
+                        holder.image.setImageResource(R.drawable.img_detente);
                         break;
                     default:
-                        holder.image.setImageResource(R.drawable.culture);
+                        holder.image.setImageResource(R.drawable.img_culture);
                         break;
                 }
             } else {
-                holder.image.setImageResource(R.drawable.culture);
+                holder.image.setImageResource(R.drawable.img_culture);
             }
         }
 
