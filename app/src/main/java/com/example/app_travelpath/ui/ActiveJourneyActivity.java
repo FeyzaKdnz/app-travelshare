@@ -21,7 +21,7 @@ public class ActiveJourneyActivity extends AppCompatActivity {
 
     private List<Spot> route;
     private int currentStepIndex = 0;
-    private TextView tvStepCounter, tvSpotName, tvSpotDetails, tvCategoryBadge, tvOpeningHours;
+    private TextView tvStepCounter, tvSpotName, tvSpotDetails, tvCategoryBadge, tvOpeningHours, tvAuthorName;
     private ImageView imgSpotMain;
     private Button btnNextStep, btnViewOnMap, btnFinalize;
     private SearchView searchStep;
@@ -86,6 +86,7 @@ public class ActiveJourneyActivity extends AppCompatActivity {
         btnFinalize = findViewById(R.id.btnFinalize);
         searchStep = findViewById(R.id.searchStep);
         tvOpeningHours = findViewById(R.id.tvOpeningHours);
+        tvAuthorName = findViewById(R.id.tvAuthorName); // Liaison correcte ici
     }
 
     private void loadSpot(int index) {
@@ -164,6 +165,15 @@ public class ActiveJourneyActivity extends AppCompatActivity {
             tvOpeningHours.setText("OPENING HOURS :\n" + cleanHours);
         } else {
             tvOpeningHours.setVisibility(android.view.View.GONE);
+        }
+        
+        /* --------- GESTION DES AUTEURS --------- */
+
+        if (spot.getExternalAuthorName() != null && !spot.getExternalAuthorName().isEmpty()) {
+            tvAuthorName.setVisibility(android.view.View.VISIBLE);
+            tvAuthorName.setText("Photo by: " + spot.getExternalAuthorName());
+        } else {
+            tvAuthorName.setVisibility(android.view.View.GONE);
         }
     }
 

@@ -64,6 +64,21 @@
                     tools:ignore="ContentDescription" />
 
                 <TextView
+                    android:id="@+id/tvAuthorName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Photo by: Mehdi Bakhtar"
+                    android:textSize="10sp"
+                    android:textColor="#FFFFFF"
+                    android:background="#80000000"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="2dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_margin="8dp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <TextView
                     android:id="@+id/tvCategoryBadge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

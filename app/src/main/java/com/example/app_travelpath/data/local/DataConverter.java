@@ -27,4 +27,22 @@ public class DataConverter {
         Gson gson = new Gson();
         return gson.toJson(list);
     }
+
+    // NOUVEAU : Convertisseur pour la liste des utilisateurs ayant liké (List<String>)
+    @TypeConverter
+    public static List<String> fromStringListString(String value) {
+        if (value == null) {
+            return Collections.emptyList();
+        }
+        Type listType = new TypeToken<List<String>>() {}.getType();
+        return new Gson().fromJson(value, listType);
+    }
+
+    @TypeConverter
+    public static String fromStringList(List<String> list) {
+        if (list == null) {
+            return null;
+        }
+        return new Gson().toJson(list);
+    }
 }

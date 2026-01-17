@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.app_travelpath.ui.CreateJourneyActivity;
+import com.example.app_travelpath.ui.ExploreActivity;
 import com.example.app_travelpath.ui.SavedJourneysActivity;
 
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         tvCityLocation = findViewById(R.id.tvCityLocation);
         Button btnCreateJourney = findViewById(R.id.btnCreateJourney);
         Button btnViewRoute = findViewById(R.id.btnViewRoute);
+        Button btnProfile = findViewById(R.id.btnProfile);
 
         options.add(new BackgroundOption(R.drawable.manarola, "Manarola, Italia"));
         options.add(new BackgroundOption(R.drawable.istanbul3, "Istanbul, Türkiye"));
@@ -78,6 +80,16 @@ public class MainActivity extends AppCompatActivity {
 
         btnViewRoute.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, SavedJourneysActivity.class);
+            startActivity(intent);
+        });
+
+        findViewById(R.id.btnExplore).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ExploreActivity.class);
+            startActivity(intent);
+        });
+
+        findViewById(R.id.btnProfile).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, com.example.app_travelpath.ui.ProfileActivity.class);
             startActivity(intent);
         });
     }

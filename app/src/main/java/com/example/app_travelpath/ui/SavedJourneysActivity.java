@@ -1,13 +1,18 @@
 package com.example.app_travelpath.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,6 +40,7 @@ public class SavedJourneysActivity extends AppCompatActivity {
         layoutEmptyState = findViewById(R.id.tvEmptyState);
         btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());
+        
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new SavedJourneysAdapter();
         recyclerView.setAdapter(adapter);
@@ -50,8 +56,17 @@ public class SavedJourneysActivity extends AppCompatActivity {
     }
 
     private void loadJourneys() {
+        SharedPreferences prefs = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        String currentUsername = prefs.getString("logged_in_username", null);
+
+        if (currentUsername == null) {
+            layoutEmptyState.setVisibility(View.VISIBLE);
+            return;
+        }
+
         Executors.newSingleThreadExecutor().execute(() -> {
-            List<SavedJourney> list = AppDatabase.getDatabase(this).savedJourneyDao().getAllJourneys();
+            List<SavedJourney> list = AppDatabase.getDatabase(this).savedJourneyDao().getJourneysByUser(currentUsername);
+            
             runOnUiThread(() -> {
                 if (list.isEmpty()) {
                     layoutEmptyState.setVisibility(View.VISIBLE);
@@ -66,7 +81,7 @@ public class SavedJourneysActivity extends AppCompatActivity {
     }
 
     private void setupSwipeToDelete() {
-        new androidx.recyclerview.widget.ItemTouchHelper(new androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback(0, androidx.recyclerview.widget.ItemTouchHelper.LEFT) {
+        ItemTouchHelper.SimpleCallback callback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -77,17 +92,36 @@ public class SavedJourneysActivity extends AppCompatActivity {
                 int position = viewHolder.getAdapterPosition();
                 SavedJourney journeyToDelete = adapter.getJourneyAt(position);
 
-                Executors.newSingleThreadExecutor().execute(() -> {
-                    AppDatabase.getDatabase(SavedJourneysActivity.this).savedJourneyDao().delete(journeyToDelete);
+                // --- NOUVEAU : Boîte de dialogue de confirmation ---
+                AlertDialog.Builder builder = new AlertDialog.Builder(SavedJourneysActivity.this);
+                builder.setTitle("Confirm Deletion");
+                builder.setMessage("Are you sure you want to delete this trip?");
+                
+                builder.setPositiveButton("Yes", (dialog, which) -> {
+                    // Suppression confirmée
+                    Executors.newSingleThreadExecutor().execute(() -> {
+                        AppDatabase.getDatabase(SavedJourneysActivity.this).savedJourneyDao().delete(journeyToDelete);
+                    });
+
+                    adapter.removeJourney(position);
+                    Toast.makeText(SavedJourneysActivity.this, "Trip deleted", Toast.LENGTH_SHORT).show();
+
+                    if (adapter.getItemCount() == 0) {
+                        layoutEmptyState.setVisibility(View.VISIBLE);
+                    }
                 });
 
-                adapter.removeJourney(position);
-                android.widget.Toast.makeText(SavedJourneysActivity.this, "Trip deleted", android.widget.Toast.LENGTH_SHORT).show();
+                builder.setNegativeButton("Cancel", (dialog, which) -> {
+                    // Action annulée : on remet l'élément en place visuellement
+                    adapter.notifyItemChanged(position);
+                    dialog.dismiss();
+                });
 
-                if (adapter.getItemCount() == 0) {
-                    layoutEmptyState.setVisibility(View.VISIBLE);
-                }
+                builder.setCancelable(false); // Empêche de fermer en cliquant à côté
+                builder.show();
             }
-        }).attachToRecyclerView(recyclerView);
+        };
+
+        new ItemTouchHelper(callback).attachToRecyclerView(recyclerView);
     }
 }

@@ -90,7 +90,7 @@ public class SpotRepository {
 
     private void fetchSpotsAroundOptimized(String city, double lat, double lon, CompletableFuture<List<Spot>> future) {
 
-        double offset = 0.035;
+        double offset = 0.020;
 
         double south = lat - offset;
         double west = lon - offset;

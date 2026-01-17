@@ -41,6 +41,9 @@ public class SavedJourneysAdapter extends RecyclerView.Adapter<SavedJourneysAdap
         SavedJourney journey = journeys.get(position);
         holder.tvName.setText(journey.name);
         holder.tvDate.setText(journey.date);
+        
+        // Affichage du nombre de likes récoltés par ce parcours
+        holder.tvLikeCount.setText(String.valueOf(journey.likesCount));
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) listener.onItemClick(journey);
@@ -53,12 +56,13 @@ public class SavedJourneysAdapter extends RecyclerView.Adapter<SavedJourneysAdap
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvName, tvDate;
+        TextView tvName, tvDate, tvLikeCount;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvJourneyName);
             tvDate = itemView.findViewById(R.id.tvJourneyDate);
+            tvLikeCount = itemView.findViewById(R.id.tvLikeCount);
         }
     }
 

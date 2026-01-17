@@ -18,6 +18,37 @@
         android:layout_height="match_parent"
         android:background="@drawable/gradient_overlay" />
 
+    <!-- BOUTON PROFILE (Haut Gauche) -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Profile"
+        app:backgroundTint="#33FFFFFF"
+        app:cornerRadius="20dp"
+        app:icon="@drawable/outline_account_circle_24"
+        app:iconTint="@android:color/white"
+        android:layout_margin="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+
+    <!-- BOUTON EXPLORE (Haut Droite) -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnExplore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Explore"
+        android:textColor="@android:color/white"
+        app:backgroundTint="#33FFFFFF"
+        app:cornerRadius="20dp"
+        app:icon="@drawable/outline_explore_24"
+        app:iconTint="@android:color/white"
+        android:layout_margin="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"

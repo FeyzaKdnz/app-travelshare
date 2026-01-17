@@ -1,6 +1,8 @@
 package com.example.app_travelpath.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -81,10 +83,15 @@ public class EndJourneyActivity extends AppCompatActivity {
     }
 
     private void saveJourneyToDB(String name) {
+        // --- CORRECTION : Récupération de l'utilisateur connecté ---
+        SharedPreferences prefs = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        String username = prefs.getString("logged_in_username", "Unknown");
+
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
         String date = sdf.format(new Date());
 
-        SavedJourney journey = new SavedJourney(name, date, completedRoute);
+        // On passe maintenant 4 arguments au constructeur, dont le username
+        SavedJourney journey = new SavedJourney(name, date, username, completedRoute);
 
         Executors.newSingleThreadExecutor().execute(() -> {
             AppDatabase.getDatabase(this).savedJourneyDao().insert(journey);

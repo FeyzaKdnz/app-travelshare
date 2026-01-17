@@ -38,16 +38,28 @@
             android:background="@drawable/bg_effort_card_selector"
             android:backgroundTint="#33FFFFFF"
             app:tint="@android:color/white"
-            android:contentDescription="Back" />
+            android:contentDescription="Retour" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/your_custom_route"
+            android:layout_weight="1"
+            android:text="Your Custom Route"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginStart="16dp"/>
+
+        <!-- BOUTON RETOUR ACCUEIL (Haut Droite) -->
+        <ImageButton
+            android:id="@+id/btnHome"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/outline_home_24"
+            android:background="@drawable/bg_effort_card_selector"
+            android:backgroundTint="#33FFFFFF"
+            app:tint="@android:color/white"
+            android:contentDescription="Accueil" />
     </LinearLayout>
 
     <androidx.cardview.widget.CardView
@@ -70,7 +82,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/trip_overview"
+                android:text="Trip Overview"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_marginBottom="16dp"/>
@@ -88,7 +100,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/total_cost"
+                        android:text="Total Cost"
                         android:textColor="#757575"
                         android:textSize="12sp"/>
                     <TextView
@@ -117,7 +129,7 @@
                     <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/weather"
+                    android:text="Weather"
                     android:textColor="#757575"
                     android:textSize="12sp"/>
 
@@ -153,7 +165,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/est_duration"
+                        android:text="Est. Duration"
                         android:textColor="#757575"
                         android:textSize="12sp"/>
                     <TextView
@@ -173,7 +185,7 @@
         android:id="@+id/recyclerResult"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="16dp"
         android:paddingHorizontal="8dp"
         android:clipToPadding="false"
         app:layout_constraintTop_toBottomOf="@id/cardSummary"
@@ -195,7 +207,7 @@
             android:id="@+id/btnStartJourney"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="@string/start_journey"
+            android:text="Start Journey"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@android:color/white"
@@ -217,8 +229,8 @@
                 android:layout_width="0dp"
                 android:layout_height="55dp"
                 android:layout_weight="1"
-                android:text="@string/map_view"
-                android:textSize="9sp"
+                android:text="Map View"
+                android:textSize="11sp"
                 android:textColor="#000000"
                 app:backgroundTint="#F0F0F0"
                 app:icon="@drawable/outline_map_24"
@@ -234,8 +246,8 @@
                 android:layout_width="0dp"
                 android:layout_height="55dp"
                 android:layout_weight="1"
-                android:text="@string/shuffle"
-                android:textSize="9sp"
+                android:text="Shuffle"
+                android:textSize="11sp"
                 android:textColor="#000000"
                 app:backgroundTint="#F0F0F0"
                 app:icon="@drawable/outline_forward_media_24"
@@ -251,8 +263,8 @@
                 android:layout_width="0dp"
                 android:layout_height="55dp"
                 android:layout_weight="1"
-                android:text="@string/export_pdf"
-                android:textSize="9sp"
+                android:text="Export"
+                android:textSize="11sp"
                 android:textColor="#000000"
                 app:backgroundTint="#F0F0F0"
                 app:icon="@android:drawable/ic_menu_save"
@@ -268,14 +280,29 @@
             android:id="@+id/btnSaveJourney"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="@string/save_this_trip"
+            android:text="Save This Trip"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="#000000"
             app:strokeColor="#000000"
             app:strokeWidth="2dp"
             app:backgroundTint="#FFFFFF"
-            app:cornerRadius="12dp"/>
+            app:cornerRadius="12dp"
+            android:layout_marginBottom="12dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnShareJourney"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Share with Community"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            app:backgroundTint="#000000"
+            app:cornerRadius="12dp"
+            app:icon="@drawable/outline_bookmark_heart_24"
+            app:iconTint="#FFFFFF"
+            app:iconGravity="textStart"/>
 
     </LinearLayout>
 
