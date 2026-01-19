@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,6 +69,10 @@ public class JourneyResultActivity extends AppCompatActivity {
     
     private SavedJourney lastSavedJourneyObject = null;
 
+    private LinearLayout layoutExtraActions;
+    private ImageButton btnExpandActions;
+    private boolean isExpanded = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +93,9 @@ public class JourneyResultActivity extends AppCompatActivity {
         ImageButton btnBack = findViewById(R.id.btnBack);
         ImageButton btnHome = findViewById(R.id.btnHome);
         
+        layoutExtraActions = findViewById(R.id.layoutExtraActions);
+        btnExpandActions = findViewById(R.id.btnExpandActions);
+
         ImageView imgHeaderBg = findViewById(R.id.imgHeaderBg);
         imgHeaderBg.setImageResource(R.drawable.img_trip);
 
@@ -132,10 +141,23 @@ public class JourneyResultActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        btnExpandActions.setOnClickListener(v -> toggleExtraActions());
+
         Button btnExportPdf = findViewById(R.id.btnExportPdf);
         btnExportPdf.setOnClickListener(v -> {
             generateAndSharePdf(currentRouteDisplayed, cityName);
         });
+    }
+
+    private void toggleExtraActions() {
+        if (isExpanded) {
+            layoutExtraActions.setVisibility(View.GONE);
+            btnExpandActions.animate().rotation(0).setDuration(300).start();
+        } else {
+            layoutExtraActions.setVisibility(View.VISIBLE);
+            btnExpandActions.animate().rotation(180).setDuration(300).start();
+        }
+        isExpanded = !isExpanded;
     }
 
     private void regenerateJourney(TextView tvCost, TextView tvTime, RecyclerView recycler, Button btnMap) {
@@ -303,7 +325,7 @@ public class JourneyResultActivity extends AppCompatActivity {
                                 for (TravelSharePhoto photo : sharedPhotos) {
                                     float[] results = new float[1];
                                     android.location.Location.distanceBetween(mySpot.getLatitude(), mySpot.getLongitude(), photo.getLatitude(), photo.getLongitude(), results);
-                                    if (results[0] < 200) {
+                                    if (results[0] < 300) {
                                         mySpot.setExternalImageUrl(photo.getFullImageUrl());
                                         fetchAuthorName(mySpot, photo.getFrameId());
                                         break;

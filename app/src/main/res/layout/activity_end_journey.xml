@@ -75,17 +75,33 @@
             android:layout_marginBottom="16dp"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnHome"
+            android:id="@+id/btnShareJourney"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="@string/back_to_home"
+            android:text="@string/share_with_community"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
             app:backgroundTint="#00000000"
             app:strokeColor="#FFFFFF"
             app:strokeWidth="1dp"
-            app:cornerRadius="12dp"/>
+            app:icon="@drawable/outline_explore_24"
+            app:iconTint="#FFFFFF"
+            app:iconGravity="textStart"
+            app:cornerRadius="12dp"
+            android:layout_marginBottom="16dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnHome"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="@string/back_to_home"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#B0BEC5"
+            app:backgroundTint="#00000000"
+            app:cornerRadius="12dp"
+            style="@style/Widget.MaterialComponents.Button.TextButton"/>
 
     </LinearLayout>
 

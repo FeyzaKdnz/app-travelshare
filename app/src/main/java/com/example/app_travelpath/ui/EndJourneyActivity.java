@@ -27,7 +27,7 @@ import java.util.concurrent.Executors;
 public class EndJourneyActivity extends AppCompatActivity {
 
     private List<Spot> completedRoute;
-    private Button btnSaveJourney, btnHome;
+    private Button btnSaveJourney, btnHome, btnShareJourney;
     private TextView tvSavePrompt;
     private boolean isSaved = false;
 
@@ -38,13 +38,23 @@ public class EndJourneyActivity extends AppCompatActivity {
 
         completedRoute = (List<Spot>) getIntent().getSerializableExtra("finished_route");
         btnSaveJourney = findViewById(R.id.btnSaveJourney);
+        btnShareJourney = findViewById(R.id.btnShareJourney);
         btnHome = findViewById(R.id.btnHome);
         tvSavePrompt = findViewById(R.id.tvSavePrompt);
+
         btnSaveJourney.setOnClickListener(v -> {
             if (!isSaved) {
-                showSaveDialog();
+                showSaveDialog(false);
             } else {
-                Toast.makeText(this, "Déjà enregistré !", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Already saved!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnShareJourney.setOnClickListener(v -> {
+            if (!isSaved) {
+                showSaveDialog(true);
+            } else {
+                Toast.makeText(this, "Already shared!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -56,24 +66,24 @@ public class EndJourneyActivity extends AppCompatActivity {
         });
     }
 
-    private void showSaveDialog() {
+    private void showSaveDialog(boolean shareAfterSave) {
         if (completedRoute == null || completedRoute.isEmpty()) {
-            Toast.makeText(this, "Erreur : Pas de données à sauvegarder.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error: No data to save.", Toast.LENGTH_SHORT).show();
             return;
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Name your memory");
+        builder.setTitle(shareAfterSave ? "Share your memory" : "Name your memory");
         builder.setMessage("Give a name to this finished journey:");
 
         final EditText input = new EditText(this);
         input.setHint("Ex: My Amazing Trip");
         builder.setView(input);
 
-        builder.setPositiveButton("Save", (dialog, which) -> {
+        builder.setPositiveButton(shareAfterSave ? "Share" : "Save", (dialog, which) -> {
             String name = input.getText().toString();
             if (!name.isEmpty()) {
-                saveJourneyToDB(name);
+                saveJourneyToDB(name, shareAfterSave);
             } else {
                 Toast.makeText(this, "Name required", Toast.LENGTH_SHORT).show();
             }
@@ -82,25 +92,31 @@ public class EndJourneyActivity extends AppCompatActivity {
         builder.show();
     }
 
-    private void saveJourneyToDB(String name) {
+    private void saveJourneyToDB(String name, boolean shareAfterSave) {
         SharedPreferences prefs = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         String username = prefs.getString("logged_in_username", "Unknown");
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
         String date = sdf.format(new Date());
+        
         SavedJourney journey = new SavedJourney(name, date, username, completedRoute);
+        if (shareAfterSave) {
+            journey.isShared = true;
+        }
 
         Executors.newSingleThreadExecutor().execute(() -> {
             AppDatabase.getDatabase(this).savedJourneyDao().insert(journey);
 
             runOnUiThread(() -> {
                 isSaved = true;
-                btnSaveJourney.setText("Trip Saved ✓");
                 btnSaveJourney.setEnabled(false);
-                btnSaveJourney.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
-                tvSavePrompt.setText("Memory safely stored.");
-
-                Toast.makeText(this, "Saved successfully!", Toast.LENGTH_SHORT).show();
+                btnShareJourney.setEnabled(false);
+                btnSaveJourney.setAlpha(0.5f);
+                btnShareJourney.setAlpha(0.5f);
+                
+                String msg = shareAfterSave ? "Trip shared with community!" : "Trip saved to my trips!";
+                tvSavePrompt.setText(msg);
+                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
             });
         });
     }

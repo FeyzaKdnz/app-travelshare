@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingHorizontal="16dp">
+
+    <LinearLayout
+        android:layout_width="30dp"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/viewTopLine"
+            android:layout_width="2dp"
+            android:layout_height="16dp"
+            android:background="#DDDDDD" />
+
+        <ImageView
+            android:id="@+id/imgStatusDot"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@android:drawable/radiobutton_off_background"
+            app:tint="#DDDDDD" />
+
+        <View
+            android:id="@+id/viewBottomLine"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:minHeight="40dp"
+            android:background="#DDDDDD" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutTextContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingVertical="12dp"
+        android:layout_marginStart="12dp">
+
+        <TextView
+            android:id="@+id/tvTimelineSpotName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nom du lieu"
+            android:textSize="14sp"
+            android:textColor="#757575" />
+
+        <TextView
+            android:id="@+id/tvWalkingTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10 min walk"
+            android:textSize="11sp"
+            android:textColor="#9E9E9E"
+            android:visibility="gone" />
+    </LinearLayout>
+</LinearLayout>

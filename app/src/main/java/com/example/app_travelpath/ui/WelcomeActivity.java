@@ -66,7 +66,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void initBackgroundOptions() {
         options.add(new BackgroundOption(R.drawable.img_manarola, "Manarola, Italia"));
-        options.add(new BackgroundOption(R.drawable.img_istanbul3, "Istanbul, Türkiye"));
+        options.add(new BackgroundOption(R.drawable.img_istanbul2, "Istanbul, Türkiye"));
         options.add(new BackgroundOption(R.drawable.img_colmar, "Colmar, France"));
         options.add(new BackgroundOption(R.drawable.img_shinjuku, "Shinjuku, Japan"));
         options.add(new BackgroundOption(R.drawable.img_edinburg, "Edinburgh, Scotland"));
@@ -76,7 +76,7 @@ public class WelcomeActivity extends AppCompatActivity {
         options.add(new BackgroundOption(R.drawable.img_paris, "Paris, France"));
         options.add(new BackgroundOption(R.drawable.img_iran, "Shiraz, Iran"));
         options.add(new BackgroundOption(R.drawable.img_grece, "Mykonos, Greece"));
-        options.add(new BackgroundOption(R.drawable.img_istanbul2, "Istanbul, Türkiye"));
+        options.add(new BackgroundOption(R.drawable.img_istanbul3, "Istanbul, Türkiye"));
         options.add(new BackgroundOption(R.drawable.img_kirgiz, "Kara-Köl, Kyrgyzstan"));
         options.add(new BackgroundOption(R.drawable.img_roma, "Roma, Italia"));
     }
@@ -84,7 +84,9 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        handler.post(carouselRunnable);
+        if (!options.isEmpty()) {
+            handler.post(carouselRunnable);
+        }
     }
 
     @Override
@@ -95,6 +97,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void changeBackgroundWithAnimation() {
         if (options.isEmpty()) return;
+
         imgBackground.animate().alpha(0f).setDuration(500).withEndAction(() -> {
             BackgroundOption current = options.get(currentIndex);
             imgBackground.setImageResource(current.imageResId);

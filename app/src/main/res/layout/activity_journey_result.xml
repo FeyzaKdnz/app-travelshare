@@ -200,7 +200,18 @@
         android:background="#FFFFFF"
         android:padding="16dp"
         android:elevation="16dp"
+        android:animateLayoutChanges="true"
         app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnExpandActions"
+            android:layout_width="48dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/outline_expand_less_24"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="#757575"
+            android:contentDescription="Voir plus d'options" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnStartJourney"
@@ -215,93 +226,101 @@
             app:icon="@android:drawable/ic_media_play"
             app:iconTint="#FFFFFF"
             app:iconGravity="textStart"
-            android:layout_marginBottom="12dp"/>
+            android:layout_marginBottom="8dp"/>
 
         <LinearLayout
+            android:id="@+id/layoutExtraActions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="12dp">
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnShowMapRoute"
+                    android:layout_width="0dp"
+                    android:layout_height="55dp"
+                    android:layout_weight="1"
+                    android:text="@string/map_view"
+                    android:textSize="11sp"
+                    android:textColor="#000000"
+                    app:backgroundTint="#F0F0F0"
+                    app:icon="@drawable/outline_map_24"
+                    app:iconTint="#000000"
+                    app:cornerRadius="12dp"
+                    android:layout_marginHorizontal="2dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnRegenerate"
+                    android:layout_width="0dp"
+                    android:layout_height="55dp"
+                    android:layout_weight="1"
+                    android:text="@string/shuffle"
+                    android:textSize="11sp"
+                    android:textColor="#000000"
+                    app:backgroundTint="#F0F0F0"
+                    app:icon="@drawable/outline_forward_media_24"
+                    app:iconTint="#000000"
+                    app:cornerRadius="12dp"
+                    android:layout_marginHorizontal="2dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnExportPdf"
+                    android:layout_width="0dp"
+                    android:layout_height="55dp"
+                    android:layout_weight="1"
+                    android:text="@string/export"
+                    android:textSize="11sp"
+                    android:textColor="#000000"
+                    app:backgroundTint="#F0F0F0"
+                    app:icon="@android:drawable/ic_menu_save"
+                    app:iconTint="#000000"
+                    app:cornerRadius="12dp"
+                    android:layout_marginHorizontal="2dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnShowMapRoute"
-                android:layout_width="0dp"
-                android:layout_height="55dp"
-                android:layout_weight="1"
-                android:text="@string/map_view"
-                android:textSize="11sp"
+                android:id="@+id/btnSaveJourney"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="@string/save_this_trip"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 android:textColor="#000000"
-                app:backgroundTint="#F0F0F0"
-                app:icon="@drawable/outline_map_24"
-                app:iconTint="#000000"
+                app:strokeColor="#000000"
+                app:strokeWidth="2dp"
+                app:backgroundTint="#FFFFFF"
                 app:cornerRadius="12dp"
-                android:layout_marginHorizontal="2dp"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+                android:layout_marginBottom="12dp"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnRegenerate"
-                android:layout_width="0dp"
-                android:layout_height="55dp"
-                android:layout_weight="1"
-                android:text="@string/shuffle"
-                android:textSize="11sp"
-                android:textColor="#000000"
-                app:backgroundTint="#F0F0F0"
-                app:icon="@drawable/outline_forward_media_24"
-                app:iconTint="#000000"
+                android:id="@+id/btnShareJourney"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="@string/share_with_community"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                app:backgroundTint="#000000"
                 app:cornerRadius="12dp"
-                android:layout_marginHorizontal="2dp"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnExportPdf"
-                android:layout_width="0dp"
-                android:layout_height="55dp"
-                android:layout_weight="1"
-                android:text="@string/export"
-                android:textSize="11sp"
-                android:textColor="#000000"
-                app:backgroundTint="#F0F0F0"
-                app:icon="@android:drawable/ic_menu_save"
-                app:iconTint="#000000"
-                app:cornerRadius="12dp"
-                android:layout_marginHorizontal="2dp"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+                app:icon="@drawable/outline_bookmark_heart_24"
+                app:iconTint="#FFFFFF"
+                app:iconGravity="textStart"/>
         </LinearLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSaveJourney"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="@string/save_this_trip"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#000000"
-            app:strokeColor="#000000"
-            app:strokeWidth="2dp"
-            app:backgroundTint="#FFFFFF"
-            app:cornerRadius="12dp"
-            android:layout_marginBottom="12dp"/>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnShareJourney"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="@string/share_with_community"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            app:backgroundTint="#000000"
-            app:cornerRadius="12dp"
-            app:icon="@drawable/outline_bookmark_heart_24"
-            app:iconTint="#FFFFFF"
-            app:iconGravity="textStart"/>
 
     </LinearLayout>
 
